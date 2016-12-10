@@ -10,4 +10,4 @@ To run the script, start R and type
 source("run_analysis.R")
 
 The script will download the dataset, and create a new file named
-"new_tidy_data.csv".
+"new_tidy_data.txt".

@@ -87,4 +87,4 @@ newDataSet <- summarize_each(groupedData, c("mean"))
 newDataSet <- newDataSet[order(newDataSet$activityname, newDataSet$subjectid),]
 
 # Done! Write the new tidy data set.
-write.csv(newDataSet, file="new_tidy_data.csv")
+write.table(newDataSet, file="new_tidy_data.txt", row.names=FALSE)
