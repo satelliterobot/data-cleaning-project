@@ -48,7 +48,7 @@ dataSet <- rbind(trainingSet, testSet)
 # Step 3. Uses descriptive activity names to name the activities in the data
 # set
 #
-# Use merge to apply the activity names to the "labels" files.
+# Use left_join from dplyr to apply the activity names to the "labels" files.
 trainingLabels <- read.table(file.path(dataName, "train", "y_train.txt"),
                              col.names=c("activityid"), colClasses="integer")
 testLabels <- read.table(file.path(dataName, "test", "y_test.txt"),
@@ -57,8 +57,8 @@ labels <- rbind(trainingLabels, testLabels)
 activity <- read.table(file.path(dataName, "activity_labels.txt"), sep=" ",
                        col.names=c("activityid", "activityname"),
                        stringsAsFactors=FALSE)
-activityMerged <- merge(labels, activity, by.x="activityid", by.y="activityid",
-                        all=TRUE)
+library(dplyr)
+activityMerged <- left_join(labels, activity, by="activityid")
 # Now make that a new column in "dataSet"
 dataSet$activityname <- factor(activityMerged$activityname)
 
@@ -81,7 +81,6 @@ subjects <- rbind(trainingSubjects, testSubjects)
 dataSet$subjectid <- subjects$subjectid
 # Now use group_by from dplyr to group by activity and subject, and summarize
 # from dplyr to get the means
-library(dplyr)
 groupedData <- group_by(dataSet, activityname, subjectid)
 newDataSet <- summarize_each(groupedData, c("mean"))
 # Sort it so it looks nicer
